@@ -40,7 +40,7 @@ class Node {
         other.receiveConnection(this,weight);
     }
 
-    void receiveConnection(Node other, int weight) {
+    private void receiveConnection(Node other, int weight) {
         boolean overWrite = names.add(other.name); //True if name was already a connection (overwriting weight)
         int index = names.find(other.name); //Calling the cached data
         if(overWrite) {
@@ -49,6 +49,20 @@ class Node {
             connections.insertElementAt(other,index);
             weights.insertElementAt(weight,index);
         }
+    }
+
+    void removeConnection(Node other) {
+        receiveRemoveConnection(other);
+        other.receiveRemoveConnection(this);
+    }
+
+    private void receiveRemoveConnection(Node other) {
+        int index = names.find(other.name);
+        System.out.println(index);
+        if(index == -1) return;
+        names.remove(index);
+        weights.remove(index);
+        connections.remove(index);
     }
 
     public static void main(String[] args) {
@@ -86,11 +100,18 @@ class Node {
         n.receiveConnection(c,3);
         if(n.names.find("B") == 1 && n.connections.elementAt(1) == b && n.weights.elementAt(1) == 2
                 && n.names.find("A") == 0 && n.connections.elementAt(0) == a && n.weights.elementAt(0) == 1
-                && n.names.find("C") == 2 && n.connections.elementAt(2) == a && n.weights.elementAt(2) == 3
+                && n.names.find("C") == 2 && n.connections.elementAt(2) == c && n.weights.elementAt(2) == 3
                 && n.connections.size() == 3 && n.weights.size() == 3)
             System.out.println("Test passed");
         else System.out.println("Test failed");
 
+        System.out.println("###Testing receiveRemoveConnection()###");
+        n.receiveRemoveConnection(a);
+        if(n.names.find("B") == 0 && n.connections.elementAt(0) == b && n.weights.elementAt(0) == 2
+                && n.names.find("C") == 1 && n.connections.elementAt(1) == c && n.weights.elementAt(1) == 3
+                && n.connections.size() == 2 && n.weights.size() == 2)
+            System.out.println("Test passed");
+        else System.out.println("Test failed");
     }
 
 }

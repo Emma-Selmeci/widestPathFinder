@@ -45,13 +45,19 @@ public class OrderedStringVector {
             return false;
         }
         int i = getIndex(name);
-        if(v.elementAt(i).equals(name)) {
+        if(i < v.size() && v.elementAt(i).equals(name)) {
             cachedIndex = i;
             return true;
         }
         cachedIndex = i;
         v.add(i,name);
         return false;
+    }
+
+    public void remove(int index) {
+        cachedString = "anystring";
+        cachedIndex = -1;
+        v.remove(index);
     }
 
     /**

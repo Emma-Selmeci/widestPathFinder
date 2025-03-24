@@ -33,12 +33,6 @@ public class Graph {
      * @return - the current size of the graph
      */
     public Integer addNode(String startPoint, String endPoint, Integer weight) {
-        Node start = getNode(startPoint);
-        if(start == null) throw new IllegalArgumentException("Node " + startPoint + " not in graph instance");
-        Node end = getNode(startPoint);
-
-        if(start != end) ++graphSize;
-        return graphSize;
     }
 
     private Node getNode(String nodeName) {
